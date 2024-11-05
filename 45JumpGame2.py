@@ -13,4 +13,19 @@ class Solution:
                 if index+j < length and dp[index+j] > new_step:
                     dp[index+j] = new_step
         return dp[-1]
+    
+    def jump2(self, nums):
+        length = len(nums)
+
+        res = 0
+        l, r = 0, 0
+
+        while r < length - 1:
+            res += 1
+            max_r = r
+            for i in range(l, r+1):
+                max_r = max(max_r, i + nums[i])
+            l = r + 1
+            r = max_r
+        return res
         
