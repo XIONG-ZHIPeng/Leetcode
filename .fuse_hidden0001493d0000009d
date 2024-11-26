@@ -1,0 +1,23 @@
+class Solution:
+    def maxProfit(self, prices):
+        
+        # It is impossible to have stock to sell on first day, so -infinity is set as initial value
+        cur_hold, cur_cash = -float('inf'), 0
+        
+        
+        for stock_price in prices:
+            
+            prev_hold, prev_cash = cur_hold, cur_cash
+            
+            # either keep in hold, or just buy today with stock price
+            cur_hold = max(prev_hold, 0-stock_price)
+            
+            # either keep in cash, or just sell today with stock price
+            cur_cash = max(prev_cash, prev_hold + stock_price)
+            
+            
+        # max profit must be in Cash state
+        return cur_cash
+    
+s = Solution()
+s.maxProfit([7,1,5,3,6,4])
