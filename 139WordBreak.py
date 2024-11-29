@@ -12,6 +12,8 @@ class Solution:
         for pointer in pointers:
             if s[:pointer] in wordDict:
                 dp[pointer-1] = True
+        if True not in dp:
+            return False
 
         for i in range(pointers[0], length):
             for pointer in pointers:
