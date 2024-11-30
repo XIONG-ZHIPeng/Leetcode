@@ -1,5 +1,7 @@
+
 class Solution:
     def wordBreak(self, s, wordDict):
+        wordDict = set(wordDict)
         length = len(s)
         dp, previous = [False] * length, [[] for _ in range(length)]
         pointers = list()
@@ -16,8 +18,8 @@ class Solution:
                         previous[index].append(index - pointer)
         
         result = list()
-        def find_previous(index_list, string, s, result):
 
+        def find_previous(index_list, string, s, result):
             if not index_list:
                 result.append(string[:-1])
             else:

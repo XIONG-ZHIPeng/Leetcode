@@ -1,33 +1,31 @@
 class Solution:
     def wordBreak(self, s, wordDict):
-        length = len(s)
-        dp, previous = [False] * length, [[] for _ in range(length)]
-        pointers = list()
-        for word in wordDict:
-            if len(word) not in pointers:
-                pointers.append(len(word))
-        pointers.sort()
-        
-        for index in range(pointers[0]-1,length):
-            for pointer in pointers:
-                if index == pointer - 1 or (index - pointer + 1 > 0 and dp[index-pointer]):
-                    if s[index-pointer+1:index+1] in wordDict:
-                        dp[index]= True
-                        previous[index].append(index - pointer)
-        
-        result = list()
-        def find_previous(index_list, string, s, result):
+        wordDict = set(wordDict)
+        cache = {}
 
-            if not index_list:
-                result.append(string[:-1])
-            else:
-                for index in index_list[-1]:
-                    find_previous(index_list[:index + 1], s[index+1:] + ' ' + string, s[:index + 1], result)
-        
-        if dp[-1]:
-            find_previous(previous, '', s, result)
+        def backtrack(i):
+            if i == len(s):
+                return [""]
+            if i in cache:
+                return cache[i]
+            
+            res = []
+            for j in range(i, len(s)):
+                w = s[i:j+1]
+                if w not in wordDict:
+                    continue
+                strings = backtrack(j+1)
+                if not strings:
+                    continue
+                for substr in strings:
+                    sentence = w
+                    if substr:
+                        sentence += " " + substr
+                    res.append(sentence)
+            cache[i] = res
 
-        return result
+            return res
+        return backtrack(0)
 
 
 
